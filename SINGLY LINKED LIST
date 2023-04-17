@@ -1,0 +1,167 @@
+Implement a singly linked list with the operations such
+as (insert at the
+beginning, insert at the last, insert after given value,
+delete the first node, delete
+the last node, delete the node with a given value)
+
+
+#include<stdio.h>;
+#include<stdlib.h>;
+struct node{
+int data;
+struct node *next;
+}*new, *head, *tail, *temp;
+void beginsert();
+void lastinsert();
+void randominsert();
+void begindelete();
+void lastdelete();
+void randomdelete();
+void display();
+
+void main(){
+int ch;
+while(1){
+
+printf(&quot;\nChoose one option from the following list ...\n&quot;);
+printf(&quot;\n1.Insert in begining\n&quot;);
+printf(&quot;2.Insert at last\n&quot;);
+printf(&quot;3.Insert at any random location\n&quot;);
+printf(&quot;4.Delete from Beginning\n&quot;);
+printf(&quot;5.Delete from last\n&quot;);
+printf(&quot;6.Delete node after specified location\n&quot;);
+printf(&quot;7.Show\n&quot;);
+printf(&quot;8.Exit\n&quot;);
+printf(&quot;\nEnter your choice:&quot;);
+scanf(&quot;\n%d&quot;,&amp;ch);
+switch(ch)
+{
+case 1:
+
+beginsert();
+break;
+case 2:
+lastinsert();
+break;
+case 3:
+randominsert();
+break;
+case 4:
+begindelete();
+break;
+case 5:
+lastdelete();
+break;
+case 6:
+randomdelete();
+break;
+case 7:
+display();
+break;
+case 8:
+exit(0);
+break;
+default:
+printf(&quot;Please enter valid choice..&quot;);
+}
+}
+}
+int value;
+int size;
+void beginsert(){
+
+new = (struct node*)malloc(sizeof(struct node));
+printf(&quot;enter the value to be inserted : &quot;);
+scanf(&quot;%d&quot;, &amp;value);
+new-&gt;data = value;
+new-&gt;next = head;
+head = new;
+if(tail==NULL){
+tail=head;
+size=-1;
+}
+size++;
+}
+void lastinsert(){
+new = (struct node*)malloc(sizeof(struct node));
+printf(&quot;enter the value to be inserted :&quot;);
+scanf(&quot;%d&quot;, &amp;value);
+
+new-&gt;data = value;
+if(tail!=NULL) {
+tail-&gt;next = new;
+}else{
+head=new;
+size=0;
+}
+new-&gt;next = NULL;
+tail=new;
+size++;
+}
+void randominsert(){
+int pos;
+printf(&quot;please enter a position in the range [0, %d] : &quot;, size+1);
+
+scanf(&quot;%d&quot;, &amp;pos);
+if(pos==0){
+beginsert();
+return;
+}
+else if(pos==size+1){
+lastinsert();
+return;
+}
+new = (struct node*)malloc(sizeof(struct node));
+printf(&quot;enter the value to be inserted : &quot;);
+scanf(&quot;%d&quot;, &amp;value);
+
+if(pos&gt;size+1||pos&lt;=0){
+printf(&quot;Error: please enter a position in the range [0, %d] &quot;, size+1);
+return;
+}
+temp = head;
+for(int i=0; i&lt;pos-1;i++){
+temp = temp-&gt;next;
+}
+new-&gt;data = value;
+new-&gt;next = temp-&gt;next;
+temp-&gt;next = new;
+size++;
+}
+void begindelete(){
+temp= head;
+head=head-&gt;next;
+temp-&gt;next = NULL;
+printf(&quot;the deleted element is %d&quot;, temp-&gt;data);
+
+size--;
+}
+void lastdelete(){
+temp = head;
+while(temp-&gt;next!=tail){
+temp = temp-&gt;next;
+}
+temp-&gt;next = NULL;
+tail = temp;
+printf(&quot;node deleted from the end&quot;);
+size--;
+}
+void randomdelete(){
+int pos;
+printf(&quot;enter the position : &quot;);
+scanf(&quot;%d&quot;, &amp;pos);
+temp = head;
+for(int i = 0; i&lt;pos-1; i++){
+temp = temp-&gt;next;
+}
+temp-&gt;next = temp-&gt;next-&gt;next;
+printf(&quot;node deleted at %d position&quot;, pos);
+size--;
+}
+void display(){
+temp = head;
+while(temp!=NULL){
+printf(&quot;%d &quot;, temp-&gt;data);
+temp = temp-&gt;next;
+}
+}
